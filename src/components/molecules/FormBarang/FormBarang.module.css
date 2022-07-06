@@ -1,3 +1,17 @@
+.sidebar {
+    display: flex;
+    flex-direction: row;
+    margin: 40px 100px;
+}
+
+.main {
+    display: flex;
+    flex: 1;
+    border: 6px solid teal;
+}
+
+
+
 .form {
     display: flex;
     flex-direction: row;

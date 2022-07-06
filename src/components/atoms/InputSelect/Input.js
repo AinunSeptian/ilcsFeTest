@@ -5,7 +5,12 @@ import classes from './InputSelect.module.css';
 
 const InputSelect = (props) => {
   return (
-    <Select options={props.options} id={props.id} placeholder="" className={classes.select} />
+    <Select
+      options={props.options}
+      id={props.id} placeholder=""
+      className={classes.select}
+      value={props.value}
+      onChange={props.onChange} />
   )
 }
 

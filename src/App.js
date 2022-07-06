@@ -14,17 +14,11 @@ function App() {
   }
 
   return (
-    <div className={classes.container}>
-      <nav>
-        <SideNavigation />
-      </nav>
-      <main className={classes.main}>
-        <Routes>
-          <Route path='/' element={<Perusahaan />} />
-          <Route path='/barang' element={<Barang />} />
-        </Routes>
-      </main>
-    </div>
+
+    <Routes>
+      <Route path='/' element={<Perusahaan />} />
+      <Route path='/barang' element={<Barang />} />
+    </Routes>
   );
 }
 
