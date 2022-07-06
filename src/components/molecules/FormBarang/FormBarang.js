@@ -103,9 +103,11 @@ const FormBarang = () => {
             },
             method: 'POST',
             body: JSON.stringify(payload)
-        }).then(function (res) { console.log(res) })
-            .catch(function (res) { console.log(res) })
+        }).then((res) => {
+            console.log(res)
+        }).catch((err) => console.log(err));
         console.log("All Data : ", payload)
+        alert("SUCCESS")
     }
 
     return (
