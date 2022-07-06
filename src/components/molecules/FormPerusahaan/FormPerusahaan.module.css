@@ -10,12 +10,10 @@
     border: 6px solid teal;
 }
 
-
-
 .container {
     padding: 40px;
     height: 80%;
-    width: 300px;
+    width: 450px;
     display: flex;
     flex-direction: column;
 }

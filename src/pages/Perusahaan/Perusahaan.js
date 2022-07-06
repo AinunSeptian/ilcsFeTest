@@ -1,11 +1,10 @@
 import React from 'react';
-import { FormPerusahaan } from '../../components';
 
-import classes from './Perusahaan.module.css';
+import { FormPerusahaan } from '../../components';
 
 const Perusahaan = () => {
     return (
-        <section className={classes.container}>
+        <section>
             <FormPerusahaan />
         </section>
     )

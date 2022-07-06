@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { update } from '../../../features/dataSlice';
+import { updatePerusahaan } from '../../../features/dataSlice';
 import { Gap, Input, InputSelect } from '../../atoms';
 import SideNavigation from '../SideNavigation/SideNavigation';
 import classes from './FormPerusahaan.module.css'
 
-const FormPerusahaan = (props) => {
+const FormPerusahaan = () => {
     const navigate = useNavigate()
 
     const [transaction, setTransaction] = useState("export");
@@ -17,12 +17,12 @@ const FormPerusahaan = (props) => {
     const [dataName, setDataName] = useState("");
     const [kdNegara, setKdNegara] = useState("ID");
     const [countrySelect, setCountrySelect] = useState("");
-    const [harborSelect, setHarborSelect] = useState("")
+    const [harborSelect, setHarborSelect] = useState("");
+
     const dispatch = useDispatch();
 
     const handleTransaction = (event) => {
         setTransaction(event.target.value)
-        // console.log(transaction)
     };
 
     const getDataCountry = async () => {
@@ -56,7 +56,6 @@ const FormPerusahaan = (props) => {
 
     const handleCountrySelect = (e) => {
         setCountrySelect(e.label)
-        // console.log(countrySelect)
         setKdNegara(e.value)
     }
 
@@ -68,14 +67,9 @@ const FormPerusahaan = (props) => {
         setDataName(event.target.value)
     }
 
-    // const handleHarborSelect = (value) => {
-    //     setHarborSelect(value)
-    //     console.log(harborSelect)
-    // }
-
     const handleData = (event) => {
         event.preventDefault();
-        dispatch(update({
+        dispatch(updatePerusahaan({
             transaction: transaction,
             country: countrySelect,
             harbor: harborSelect,
@@ -87,11 +81,9 @@ const FormPerusahaan = (props) => {
 
 
     return (
-
         <div className={classes.sidebar}>
             <SideNavigation onClickBarang={handleData} />
-
-            <main className={classes.main}>
+            <div className={classes.main}>
                 <form className={classes.container}>
                     <div className={classes.wrapper}>
                         <div className={classes.label}>
@@ -100,7 +92,6 @@ const FormPerusahaan = (props) => {
                             <label htmlFor="transaksi">transaksi</label>
                             {transaction === "export" ? (
                                 <label htmlFor="negaraTujuan">negara tujuan</label>
-
                             ) : (
                                 <label htmlFor="negaraAsal">negara asal</label>
                             )}
@@ -122,9 +113,8 @@ const FormPerusahaan = (props) => {
                             <InputSelect id="pelabuhanTujuan" options={dataHarbor} onChange={(event) => setHarborSelect(event.label)} />
                         </div>
                     </div>
-                    {/* <button>add</button> */}
                 </form>
-            </main>
+            </div>
         </div>
 
 

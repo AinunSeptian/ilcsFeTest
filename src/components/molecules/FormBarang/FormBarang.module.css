@@ -1,4 +1,4 @@
-.sidebar {
+.page {
     display: flex;
     flex-direction: row;
     margin: 40px 100px;
@@ -9,8 +9,6 @@
     flex: 1;
     border: 6px solid teal;
 }
-
-
 
 .form {
     display: flex;

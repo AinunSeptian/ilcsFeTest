@@ -2,24 +2,27 @@ import React, { useEffect, useState } from 'react';
 
 import { Gap, Input, InputSelect } from '../../atoms';
 import { useDispatch } from 'react-redux';
-import { getHsCode } from '../../../features/dataSlice';
+import { updateBarang } from '../../../features/dataSlice';
 import { useSelector } from 'react-redux';
-
-import classes from './FormBarang.module.css'
+import { useNavigate } from 'react-router-dom';
 import SideNavigation from '../SideNavigation/SideNavigation';
+import classes from './FormBarang.module.css';
 
 const FormBarang = () => {
-    const [dataHsCode, setDataHsCode] = useState({})
-    const [idHsCode, setIdHsCode] = useState('')
-    const [dataJumlahBarang, setDataJumlahBarang] = useState('')
-    const [dataHargaBarang, setDataHargaBarang] = useState('')
-    const [dataTotalHarga, setDataTotalHarga] = useState("")
-    const [tarif, setTarif] = useState({
-        trf: '',
-        trfPpn: '',
-    })
+    const [dataHsCode, setDataHsCode] = useState({});
+    const [idHsCode, setIdHsCode] = useState('');
+    const [dataJumlahBarang, setDataJumlahBarang] = useState('');
+    const [dataHargaBarang, setDataHargaBarang] = useState('');
+    const [dataTotalHarga, setDataTotalHarga] = useState("");
+    const [dataTarif, setDataTarif] = useState({
+        tarifNormal: '',
+        tarifPpn: ''
+    });
+
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
+
     const { hsCode } = useSelector(state => state.data)
     const { transaction, country, harbor, npwp, name } = useSelector(state => state.data)
 
@@ -34,23 +37,22 @@ const FormBarang = () => {
                 uraian_id: data.uraian_id
             }
         })
-        // setDataHsCode(hsCode)
-        dispatch(getHsCode({ hsCode }))
+        dispatch(updateBarang({ hsCode }))
     }
 
     const getPpn = async () => {
         const response = await fetch(`https://insw-dev.ilcs.co.id/n/tarif?hs_code=${idHsCode}`)
         const data = await response.json();
-        data.data?.map((d) => {
-            if (transaction === 'export') {
-                setTarif({
-                    trf: d.bk,
-                    trfPpn: d.ppnbk
+        data.data?.map((data) => {
+            if (transaction === "export") {
+                setDataTarif({
+                    tarifNormal: data.bk,
+                    tarifPpn: data.ppnbk
                 })
             } else {
-                setTarif({
-                    trf: d.bm,
-                    trfPpn: d.ppnbm,
+                setDataTarif({
+                    tarifNormal: data.bm,
+                    tarifPpn: data.ppnbm,
                 })
             }
         })
@@ -62,11 +64,10 @@ const FormBarang = () => {
             getPpn();
         }
 
-        if (tarif) {
+        if (dataTarif) {
             const totalHarga = +dataHargaBarang +
-                +tarif.trf * +dataHargaBarang +
-                +tarif.trfPpn * +dataHargaBarang;
-            //   setTotalHarga(totalPrice);
+                +dataTarif.tarifNormal * +dataHargaBarang +
+                +dataTarif.tarifPpn * +dataHargaBarang;
             setDataTotalHarga(totalHarga);
         }
     }, [idHsCode, dataHargaBarang]);
@@ -79,24 +80,20 @@ const FormBarang = () => {
         setDataHargaBarang(event.target.value)
     }
 
-    // const { transaction } = useSelector(state => state.perusahaan
-
     const changeHsCode = (e) => {
         setIdHsCode(e.value)
         setDataHsCode(e);
     }
 
-    // console.log(tarif)
-
-    // console.log("redux  ", transaction, harbor, country, name, npwp);
-    // const sendDatas = () => {
-    // }
+    const handlePerusahaan = () => {
+        navigate('/')
+    }
 
     const sendAllData = (e) => {
         e.preventDefault();
         const payload = {
             npwp, name, transaction, country, harbor,
-            tarif, dataHsCode, dataHargaBarang, dataJumlahBarang, dataTotalHarga
+            dataTarif, dataHsCode, dataHargaBarang, dataJumlahBarang, dataTotalHarga
         }
 
         fetch('https://insw-dev.ilcs.co.id/n/simpan', {
@@ -108,18 +105,13 @@ const FormBarang = () => {
             body: JSON.stringify(payload)
         }).then(function (res) { console.log(res) })
             .catch(function (res) { console.log(res) })
-
-        // console.log(response)
-
-        console.log(payload)
+        console.log("All Data : ", payload)
     }
 
     return (
-        <div className={classes.sidebar}>
-            <SideNavigation />
-
-            <main className={classes.main}>
-
+        <div className={classes.page}>
+            <SideNavigation onClickPerusahaan={handlePerusahaan} />
+            <div className={classes.main}>
                 <form className={classes.form} onSubmit={sendAllData}>
                     <div className={classes["container-left"]}>
                         <div className={classes["wrapper-left"]}>
@@ -132,8 +124,12 @@ const FormBarang = () => {
                             <div className={classes["input-left"]}>
                                 <InputSelect id="hsCode" options={hsCode} onChange={changeHsCode} />
                                 <Gap height="34px" />
-                                <Input id="jumlahBarang" type="number" value={dataJumlahBarang} onChange={handleDataJumlahBarang} />
-                                <Input id="tarif" value={tarif.trf} type="number" />
+                                <Input id="jumlahBarang"
+                                    type="number"
+                                    value={dataJumlahBarang}
+                                    onChange={handleDataJumlahBarang}
+                                />
+                                <Input id="tarif" value={dataTarif.tarifNormal} type="number" />
                                 <Input id="totalHarga" type="number" value={dataTotalHarga} />
                             </div>
                         </div>
@@ -141,14 +137,25 @@ const FormBarang = () => {
                     <div className={classes["container-right"]}>
                         <div className={classes["wrapper-right"]}>
                             <div className={classes["label-right"]}>
-                                <Input id="uraianHsCode" type="text" value={dataHsCode.uraian_id} placeholder="URAIAN HS CODE" />
+                                <Input id="uraianHsCode"
+                                    type="text"
+                                    value={dataHsCode.uraian_id}
+                                    placeholder="URAIAN HS CODE"
+                                />
                                 <label htmlFor="hargaBarang">harga barang</label>
                                 <label htmlFor="tarifPpn">tarif ppn *</label>
                             </div>
                             <div className={classes["input-right"]}>
-                                <Input id="subHeaderHsCode" type="text" value={dataHsCode.sub_header} placeholder="SUB HEADER HS CODE" />
-                                <Input id="hargaBarang" type="number" value={dataHargaBarang} onChange={handleDataHargaBarang} />
-                                <Input id="tarifPpn" value={tarif.trfPpn} type="number" />
+                                <Input id="subHeaderHsCode"
+                                    type="text"
+                                    value={dataHsCode.sub_header}
+                                    placeholder="SUB HEADER HS CODE" />
+                                <Input id="hargaBarang"
+                                    type="number"
+                                    value={dataHargaBarang}
+                                    onChange={handleDataHargaBarang}
+                                />
+                                <Input id="tarifPpn" value={dataTarif.tarifPpn} type="number" />
                             </div>
                         </div>
                     </div>
@@ -156,7 +163,7 @@ const FormBarang = () => {
                         <button className={classes.button} type="submit">Add</button>
                     </div>
                 </form>
-            </main>
+            </div>
         </div>
     )
 }

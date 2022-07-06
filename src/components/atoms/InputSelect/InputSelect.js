@@ -7,7 +7,8 @@ const InputSelect = (props) => {
   return (
     <Select
       options={props.options}
-      id={props.id} placeholder=""
+      id={props.id}
+      placeholder=""
       className={classes.select}
       value={props.value}
       onChange={props.onChange} />
