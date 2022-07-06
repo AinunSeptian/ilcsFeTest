@@ -1,0 +1,44 @@
+.container {
+    padding: 40px;
+    height: 80%;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+}
+
+.label label {
+    text-transform: uppercase;
+    margin-bottom: 40px;
+}
+
+.label label:nth-child(4) {
+    margin-bottom: 60px;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+}
+
+.input input::-webkit-outer-spin-button,
+.input input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input input,
+.input select {
+    padding: 4px 10px;
+    margin-bottom: 28px;
+}

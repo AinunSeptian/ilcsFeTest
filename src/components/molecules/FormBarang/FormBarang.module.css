@@ -1,0 +1,83 @@
+.form {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.container-left {
+    padding: 40px 0 0 40px;
+    height: 80%;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper-left,
+.wrapper-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.label-left,
+.label-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.label-left label,
+.label-right label {
+    text-transform: uppercase;
+    margin-bottom: 40px;
+}
+
+.label-left label:nth-child(1) {
+    margin-bottom: 60px;
+}
+
+.input-left,
+.input-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-left input::-webkit-outer-spin-button,
+.input-left input::-webkit-inner-spin-button,
+.input-right input::-webkit-outer-spin-button,
+.input-right input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input-left input,
+.input-left select,
+.input-right input,
+.input-right select {
+    padding: 4px 10px;
+    margin-bottom: 33px;
+}
+
+.container-right {
+    padding: 40px 40px 0 40px;
+    height: 80%;
+    width: 440px;
+    display: flex;
+    flex-direction: column;
+}
+
+.label-right input:nth-child(1) {
+    padding: 4px 10px;
+    margin-bottom: 40px;
+}
+
+.button {
+    position: absolute;
+    bottom: 40%;
+    left: 88%;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: teal;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
